@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutterGame/components/backyard.dart';
 
 import 'package:flutterGame/components/fly.dart';
 
@@ -11,6 +12,7 @@ class MainGame extends Game {
   double tileSize; //宽度比--对象宽度
   List<Fly> flies; //对象数组
   Random random; //随机数
+  Backyard background;
 
   MainGame() {
     init();
@@ -19,17 +21,15 @@ class MainGame extends Game {
   //初始化
   void init() async {
     flies = List<Fly>();
-    random = Random();
     resize(await Flame.util.initialDimensions()); //等待size后进行初始化
 
+    random = Random();
+    background = Backyard(this);
     spawnFly();
   }
 
   void render(Canvas canvas) {
-    Rect bgRect = Rect.fromLTWH(0, 0, screenSize.width, screenSize.height);
-    Paint bgPaint = Paint();
-    bgPaint.color = Color(0xff576574);
-    canvas.drawRect(bgRect, bgPaint);
+    background.render(canvas);
 
     flies.forEach((fly) => fly.render(canvas));
   }
