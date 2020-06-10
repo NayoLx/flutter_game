@@ -10,8 +10,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   Util flameUtil = Util();
-  await flameUtil.fullScreen();
-  await flameUtil.setOrientation(DeviceOrientation.portraitUp);
+  await flameUtil.fullScreen();//全屏
+  await flameUtil.setOrientation(DeviceOrientation.portraitUp);//锁定屏幕为横屏
 
   //实例化
   MainGame game = MainGame();

@@ -7,7 +7,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutterGame/components/fly.dart';
 
 class MainGame extends Game {
-  Size screenSize;
+  Size screenSize;  //存储屏幕尺寸
   double tileSize; //宽度比--对象宽度
   List<Fly> flies; //对象数组
   Random random; //随机数
