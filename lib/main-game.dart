@@ -52,8 +52,8 @@ class MainGame extends Game {
 
   //生成对象的函数
   void spawnFly() {
-    double x = random.nextDouble() * (screenSize.width - tileSize);
-    double y = random.nextDouble() * (screenSize.height - tileSize);
+    double x = random.nextDouble() * (screenSize.width - (tileSize * 2.025));
+    double y = random.nextDouble() * (screenSize.height - (tileSize * 2.025));
 
     switch (random.nextInt(5)) {
       case 0:
