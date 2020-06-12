@@ -11,8 +11,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   Util flameUtil = Util();
-  await flameUtil.fullScreen();//全屏
-  await flameUtil.setOrientation(DeviceOrientation.portraitUp);//锁定屏幕为横屏
+  await flameUtil.fullScreen(); //全屏
+  await flameUtil.setOrientation(DeviceOrientation.portraitUp); //锁定屏幕为横屏
 
   Flame.images.loadAll([
     'bg/backyard.png',
@@ -31,6 +31,13 @@ void main() async {
     'flies/macho-fly-1.png',
     'flies/macho-fly-2.png',
     'flies/macho-fly-dead.png',
+    'bg/lose-splash.png',
+    'branding/title.png',
+    'ui/dialog-credits.png',
+    'ui/dialog-help.png',
+    'ui/icon-credits.png',
+    'ui/icon-help.png',
+    'ui/start-button.png',
   ]);
 
   //实例化
