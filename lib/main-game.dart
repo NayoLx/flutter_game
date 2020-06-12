@@ -14,6 +14,7 @@ import 'package:flutterGame/components/fly.dart';
 import 'package:flutterGame/components/house-fly.dart';
 import 'package:flutterGame/components/hungry-fly.dart';
 import 'package:flutterGame/components/macho-fly.dart';
+import 'package:flutterGame/views/lost-view.dart';
 
 //todo 导入类，创建类的实例，存储实例变化/初始化实例，渲染该类
 class MainGame extends Game {
@@ -24,6 +25,7 @@ class MainGame extends Game {
   Backyard background;
   View activeView = View.home;
   HomeView homeView;
+  LostView lostView;
   StartButton startButton; //开始按钮
 
   MainGame() {
@@ -36,6 +38,7 @@ class MainGame extends Game {
     resize(await Flame.util.initialDimensions()); //等待size后进行初始化
     background = Backyard(this);
     homeView = HomeView(this);
+    lostView = LostView(this);
     startButton = StartButton(this);
 
     random = Random();
@@ -45,10 +48,18 @@ class MainGame extends Game {
   //渲染
   void render(Canvas canvas) {
     background.render(canvas);
+    if (activeView == View.home) {
+      homeView.render(canvas);
+    }
     if (activeView == View.home || activeView == View.lost) {
       startButton.render(canvas);
     }
-    flies.forEach((fly) => fly.render(canvas));
+    if (activeView == View.lost) {
+      lostView.render(canvas);
+    }
+    if (activeView == View.playing) {
+      flies.forEach((fly) => fly.render(canvas));
+    }
   }
 
   //刷新-更新
@@ -89,11 +100,28 @@ class MainGame extends Game {
 
   //点击事件
   void onTapDown(TapDownDetails d) {
-    List<Fly>.from(flies).forEach((Fly fly) {
-      if (fly.flyRect.contains(d.globalPosition)) {
-        fly.onTapDown();
+    bool isHandled = false;
+
+    if (!isHandled && startButton.rect.contains(d.globalPosition)) {
+      if (activeView == View.home || activeView == View.lost) {
+        startButton.onTapDown();
+        isHandled = true;
       }
-    });
+    }
+
+    if (!isHandled) {
+      bool didiHitAFly = false;
+      List<Fly>.from(flies).forEach((Fly fly) {
+        if (fly.flyRect.contains(d.globalPosition)) {
+          fly.onTapDown();
+          isHandled = true;
+          didiHitAFly = true;
+        }
+      });
+      if (activeView == View.playing && !didiHitAFly) {
+        activeView = View.lost;
+      }
+    }
   }
 
 //  flies.forEach((Fly fly) {

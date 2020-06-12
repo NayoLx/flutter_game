@@ -1,6 +1,7 @@
 import 'package:flame/sprite.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutterGame/main-game.dart';
+import 'package:flutterGame/view.dart';
 
 class StartButton {
   final MainGame game;
@@ -10,7 +11,7 @@ class StartButton {
   StartButton(this.game) {
     rect = Rect.fromLTWH(
         game.tileSize * 1.5,
-        (game.screenSize.height / .75) - (game.tileSize * 1.5),
+        (game.screenSize.height * 0.75) - (game.tileSize * 1.5),
         game.tileSize * 6,
         game.tileSize * 3);
 
@@ -23,5 +24,7 @@ class StartButton {
 
   void update(double t) {}
 
-  void onTapDown() {}
+  void onTapDown() {
+    game.activeView = View.playing;
+  }
 }
