@@ -4,6 +4,7 @@ import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutterGame/components/start.dart';
+import 'package:flutterGame/controllers/spawner.dart';
 import 'package:flutterGame/view.dart';
 import 'package:flutterGame/views/home-view.dart';
 
@@ -28,6 +29,8 @@ class MainGame extends Game {
   LostView lostView;
   StartButton startButton; //开始按钮
 
+  FlySpawner spawner;
+
   MainGame() {
     init();
   }
@@ -42,7 +45,8 @@ class MainGame extends Game {
     startButton = StartButton(this);
 
     random = Random();
-    spawnFly();
+    spawner = FlySpawner(this);
+
   }
 
   //渲染
@@ -64,7 +68,10 @@ class MainGame extends Game {
 
   //刷新-更新
   void update(double t) {
-    flies.forEach((fly) => fly.update(t));
+    if (activeView == View.playing) {
+      flies.forEach((fly) => fly.update(t));
+      spawner.update(t);
+    }
     flies.removeWhere((fly) => fly.isOffScene);
   }
 
