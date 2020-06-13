@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutterGame/components/score-display.dart';
 import 'package:flutterGame/components/start.dart';
 import 'package:flutterGame/controllers/spawner.dart';
 import 'package:flutterGame/view.dart';
@@ -28,8 +29,10 @@ class MainGame extends Game {
   HomeView homeView;
   LostView lostView;
   StartButton startButton; //开始按钮
+  int score; //分数
 
   FlySpawner spawner;
+  ScoreDisplay scoreDisplay;
 
   MainGame() {
     init();
@@ -46,12 +49,17 @@ class MainGame extends Game {
 
     random = Random();
     spawner = FlySpawner(this);
+    scoreDisplay = ScoreDisplay(this);
 
+    score = 0;
   }
 
   //渲染
   void render(Canvas canvas) {
     background.render(canvas);
+    if (activeView == View.playing) {
+      scoreDisplay.render(canvas);
+    }
     if (activeView == View.home) {
       homeView.render(canvas);
     }
@@ -73,6 +81,10 @@ class MainGame extends Game {
       spawner.update(t);
     }
     flies.removeWhere((fly) => fly.isOffScene);
+
+    if (activeView == View.playing) {
+      scoreDisplay.update(t);
+    }
   }
 
   //屏幕尺寸变更--自适应？
