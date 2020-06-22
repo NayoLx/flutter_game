@@ -5,6 +5,7 @@ import 'package:flame/util.dart';
 
 import 'package:flame/flame.dart';
 import 'main-game.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   //防止报错
@@ -40,8 +41,9 @@ void main() async {
     'ui/start-button.png',
   ]);
 
-  //实例化
-  MainGame game = MainGame();
+  //实例化 -- 实例缓存
+  SharedPreferences storage = await SharedPreferences.getInstance();
+  MainGame game = MainGame(storage);
 
   TapGestureRecognizer tapper = TapGestureRecognizer();
   tapper.onTapDown = game.onTapDown;

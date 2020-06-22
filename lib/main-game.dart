@@ -17,6 +17,9 @@ import 'package:flutterGame/components/house-fly.dart';
 import 'package:flutterGame/components/hungry-fly.dart';
 import 'package:flutterGame/components/macho-fly.dart';
 import 'package:flutterGame/views/lost-view.dart';
+import 'package:flutterGame/components/highscore-display.dart';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 //todo 导入类，创建类的实例，存储实例变化/初始化实例，渲染该类
 class MainGame extends Game {
@@ -31,10 +34,13 @@ class MainGame extends Game {
   StartButton startButton; //开始按钮
   int score; //分数
 
+  HighScoreDisplay highScoreDisplay;
   FlySpawner spawner;
   ScoreDisplay scoreDisplay;
 
-  MainGame() {
+  final SharedPreferences storage;//缓存记录最高分 -- final的实例变量必须在声明时具有初始值
+
+  MainGame(this.storage) {
     init();
   }
 
@@ -50,13 +56,15 @@ class MainGame extends Game {
     random = Random();
     spawner = FlySpawner(this);
     scoreDisplay = ScoreDisplay(this);
+    highScoreDisplay = HighScoreDisplay(this);
 
     score = 0;
   }
 
-  //渲染
+  //渲染页面
   void render(Canvas canvas) {
     background.render(canvas);
+    highScoreDisplay.render(canvas);
     if (activeView == View.playing) {
       scoreDisplay.render(canvas);
     }
